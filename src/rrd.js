@@ -1,6 +1,6 @@
 "use strict";
 function redirect(req, reply) {
-  if (reply.headersSent) return;
+  if (reply.sent) return;
 
   reply
     .header('content-length', 0)
