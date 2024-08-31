@@ -1,18 +1,18 @@
 #!/usr/bin/env node
 'use strict';
-const fastify = require('fastify')({ logger: true });
+const fastify = require('fastify')({
+  logger: true,
+  trustProxy: true  // Enables trust proxy, similar to Express's `app.enable('trust proxy')`
+});
 const params = require('./src/params');
 const proxy = require('./src/proxy');
 
 const PORT = process.env.PORT || 8080;
 
-// Registering the plugin to trust proxy
-fastify.register(require('@fastify/forwarded'));
-
 // Middleware to parse query parameters and set request params
 fastify.addHook('preHandler', params);
 
-// Default route
+// Default route for handling image requests
 fastify.get('/', proxy);
 
 // Handling favicon requests, responding with 204 No Content
